@@ -93,7 +93,7 @@ struct PartialSheet: ViewModifier {
         ZStack {
             content
                 // if the device type is an iPhone
-                .iPhone {
+                .iPhoneOrIPad {
                     $0
                         .background(
                             GeometryReader { proxy in
@@ -127,18 +127,18 @@ struct PartialSheet: ViewModifier {
             }
                 // if the device type is not an iPhone,
                 // display the sheet content as a normal sheet
-                .iPadOrMac {
+                .mac {
                     $0
                         .sheet(isPresented: $manager.isPresented, onDismiss: {
                             self.manager.onDismiss?()
                         }, content: {
-                            self.iPadAndMacSheet()
+                            self.BoxSheet()
                         })
             }
             // if the device type is an iPhone,
             // display the sheet content as a draggableSheet
-            if deviceType == .iphone {
-                iPhoneSheet()
+            if deviceType == .iphone || deviceType == .ipad {
+                partialSheet()
                     .edgesIgnoringSafeArea(.vertical)
             }
         }
@@ -151,7 +151,7 @@ extension PartialSheet {
     //MARK: - Mac and iPad Sheet Builder
 
     /// This is the builder for the sheet content for iPad and Mac devices only
-    private func iPadAndMacSheet() -> some View {
+    private func BoxSheet() -> some View {
         VStack {
             HStack {
                 Spacer()
@@ -172,7 +172,7 @@ extension PartialSheet {
     //MARK: - iPhone Sheet Builder
 
     /// This is the builder for the sheet content for iPhone devices only
-    private func iPhoneSheet()-> some View {
+    private func partialSheet()-> some View {
         // Build the drag gesture
         let drag = dragGesture()
         

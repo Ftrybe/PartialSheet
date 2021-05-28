@@ -137,7 +137,7 @@ struct PartialSheet: ViewModifier {
             }
             // if the device type is an iPhone,
             // display the sheet content as a draggableSheet
-            if deviceType == .iphone || deviceType == .ipad {
+            if deviceType == .iphone {
                 partialSheet()
                     .edgesIgnoringSafeArea(.vertical)
             }
